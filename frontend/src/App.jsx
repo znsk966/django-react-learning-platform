@@ -14,6 +14,11 @@ export default function App() {
         <Route path="/modules/:id" element={<ModuleDetail />} />
         <Route path="/lesson/:id" element={<LessonPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="*" element={
+          <div className="page">
+            <h1>404 — Page Not Found</h1>
+          </div>
+        } />
       </Routes>
     </div>
   );

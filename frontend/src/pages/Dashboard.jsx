@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getModules, getLessons } from "../api/client";
+import { getModules } from "../api/client";
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend
 } from "recharts";
@@ -7,17 +7,15 @@ import "./Dashboard.css";
 
 export default function Dashboard() {
   const [modules, setModules] = useState([]);
-  const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     setLoading(true);
     setError(null);
-    Promise.all([getModules(), getLessons()])
-      .then(([modulesRes, lessonsRes]) => {
-        setModules(modulesRes.data);
-        setLessons(lessonsRes.data);
+    getModules()
+      .then((res) => {
+        setModules(res.data);
         setLoading(false);
       })
       .catch(err => {
@@ -44,19 +42,21 @@ export default function Dashboard() {
     );
   }
 
+  const totalLessons = modules.reduce((sum, m) => sum + (m.lessons?.length ?? 0), 0);
+
   // Data: lessons per module
   const lessonsPerModule = modules.map(m => ({
     name: m.title,
-    count: m.lessons ? m.lessons.length : 0,
+    count: m.lessons?.length ?? 0,
   }));
 
-  // Data: module completion (demo percentages)
-  const completionData = modules.map((m) => ({
+  // Data: share of lessons per module (content distribution)
+  const lessonDistribution = modules.map((m) => ({
     name: m.title,
-    value: m.lessons ? Math.min(100, Math.floor((m.lessons.length / Math.max(lessons.length, 1)) * 100)) : 0,
+    value: m.lessons?.length ?? 0,
   }));
 
-  const colors = ["#0077cc", "#00cc77", "#cc7700", "#cc0077", "#7700cc", "#cc0077"];
+  const colors = ["#0077cc", "#00cc77", "#cc7700", "#cc0077", "#7700cc", "#9900cc"];
 
   return (
     <div className="page dashboard">
@@ -69,13 +69,13 @@ export default function Dashboard() {
         </div>
         <div className="stat-card">
           <h3>Total Lessons</h3>
-          <p className="stat-value">{lessons.length}</p>
+          <p className="stat-value">{totalLessons}</p>
         </div>
         <div className="stat-card">
           <h3>Average Lessons per Module</h3>
           <p className="stat-value">
-            {modules.length > 0 
-              ? (lessons.length / modules.length).toFixed(1) 
+            {modules.length > 0
+              ? (totalLessons / modules.length).toFixed(1)
               : 0}
           </p>
         </div>
@@ -96,19 +96,19 @@ export default function Dashboard() {
           </section>
 
           <section className="chart-section">
-            <h2>Module Completion</h2>
+            <h2>Lesson Distribution by Module</h2>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
-                  data={completionData}
+                  data={lessonDistribution}
                   dataKey="value"
                   nameKey="name"
                   cx="50%"
                   cy="50%"
                   outerRadius={100}
-                  label={({ name, value }) => `${name}: ${value}%`}
+                  label={({ name, value }) => `${name}: ${value}`}
                 >
-                  {completionData.map((entry, index) => (
+                  {lessonDistribution.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
                   ))}
                 </Pie>
