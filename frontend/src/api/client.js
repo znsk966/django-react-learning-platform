@@ -11,14 +11,16 @@ const apiClient = axios.create({
   },
 });
 
-// Request interceptor (optional - for future auth tokens)
+// Attach JWT token to every request if present
 apiClient.interceptors.request.use(
   (config) => {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 // Response interceptor for error handling
@@ -28,7 +30,13 @@ apiClient.interceptors.response.use(
     if (error.response) {
       const { status, data } = error.response;
       console.error('API Error:', status, data);
-      if (status === 404) {
+      if (status === 401 && error.config?.headers?.Authorization) {
+        // Authenticated request was rejected — token expired or invalid
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        window.location.href = '/login';
+        error.userMessage = 'Session expired. Please sign in again.';
+      } else if (status === 404) {
         error.userMessage = 'Not found.';
       } else if (status === 403) {
         error.userMessage = 'Access denied.';
@@ -54,3 +62,7 @@ export const getLessons = () => apiClient.get('/lessons/');
 export const getLessonsByModule = (moduleId) =>
   apiClient.get('/lessons/', { params: { module: moduleId } });
 export const getLessonById = (id) => apiClient.get(`/lessons/${id}/`);
+
+export const registerUser = (data) => apiClient.post('/auth/register/', data);
+export const loginUser = (data) => apiClient.post('/auth/token/', data);
+export const getMe = () => apiClient.get('/auth/me/');

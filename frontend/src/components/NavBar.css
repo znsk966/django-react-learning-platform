@@ -63,6 +63,41 @@
   border-bottom: none;
 }
 
+.navbar-username {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+  padding: 0.5rem 0.5rem;
+  font-style: italic;
+}
+
+.navbar-logout {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  padding: 0.4rem 0.9rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.navbar-logout:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.navbar-register {
+  background: white;
+  color: #0077cc !important;
+  padding: 0.4rem 0.9rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.navbar-register:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+  opacity: 1 !important;
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
@@ -72,5 +107,7 @@
 
   .navbar-links {
     gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
