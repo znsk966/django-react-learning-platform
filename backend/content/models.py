@@ -1,10 +1,11 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from mdeditor.fields import MDTextField
 
 class Module(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True, max_length=2000)
 
     class Meta:
         ordering = ['title']
@@ -18,7 +19,7 @@ class Lesson(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     content_md = MDTextField()
-    order = models.PositiveIntegerField(default=1)
+    order = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)])
 
     class Meta:
         ordering = ['module', 'order']

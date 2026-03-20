@@ -25,17 +25,24 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Handle common errors
     if (error.response) {
-      // Server responded with error status
-      console.error('API Error:', error.response.status, error.response.data);
+      const { status, data } = error.response;
+      console.error('API Error:', status, data);
+      if (status === 404) {
+        error.userMessage = 'Not found.';
+      } else if (status === 403) {
+        error.userMessage = 'Access denied.';
+      } else if (status >= 500) {
+        error.userMessage = 'Server error. Please try again later.';
+      } else {
+        error.userMessage = data?.detail || `Request failed (${status}).`;
+      }
     } else if (error.request) {
-      // Request was made but no response received
       console.error('Network Error:', error.request);
-      error.message = 'Network error. Please check your connection.';
+      error.userMessage = 'Network error. Please check your connection.';
     } else {
-      // Something else happened
       console.error('Error:', error.message);
+      error.userMessage = 'An unexpected error occurred.';
     }
     return Promise.reject(error);
   }

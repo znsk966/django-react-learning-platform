@@ -15,10 +15,12 @@ export default function ModuleDetail() {
     getModuleById(id)
       .then(res => {
         setModule(res.data);
+        document.title = `${res.data.title} | Learning Platform`;
         setLoading(false);
       })
       .catch(err => {
-        setError(err.response?.data?.detail || "Failed to load module");
+        document.title = "Module | Learning Platform";
+        setError(err.userMessage || "Failed to load module");
         setLoading(false);
       });
   }, [id]);

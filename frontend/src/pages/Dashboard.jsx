@@ -11,15 +11,16 @@ export default function Dashboard() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    document.title = "Dashboard | Learning Platform";
     setLoading(true);
     setError(null);
     getModules()
       .then((res) => {
-        setModules(res.data);
+        setModules(res.data.results);
         setLoading(false);
       })
       .catch(err => {
-        setError(err.response?.data?.detail || "Failed to load dashboard data");
+        setError(err.userMessage || "Failed to load dashboard data");
         setLoading(false);
       });
   }, []);

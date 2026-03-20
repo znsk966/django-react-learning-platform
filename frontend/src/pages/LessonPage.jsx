@@ -18,10 +18,12 @@ export default function LessonPage() {
     getLessonById(id)
       .then(res => {
         setLesson(res.data);
+        document.title = `${res.data.title} | Learning Platform`;
         setLoading(false);
       })
       .catch(err => {
-        setError(err.response?.data?.detail || "Failed to load lesson");
+        document.title = "Lesson | Learning Platform";
+        setError(err.userMessage || "Failed to load lesson");
         setLoading(false);
       });
   }, [id]);
