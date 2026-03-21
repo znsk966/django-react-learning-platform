@@ -45,7 +45,7 @@ npm run test:coverage    # Run tests with coverage report
 
 Backend environment variables go in `backend/.env` (see `backend/.env.example`):
 
-```
+```python
 SECRET_KEY=your-secret-key-here
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
@@ -69,7 +69,7 @@ Frontend API URL is configured via `VITE_API_URL` env var (defaults to `http://l
 **API endpoints:**
 
 | Method | URL | Description | Auth required |
-|--------|-----|-------------|---------------|
+| -------- | ----- | ------------- | --------------- |
 | GET | `/api/modules/` | List modules (paginated) | No |
 | GET | `/api/modules/{id}/` | Module detail with nested lessons | No |
 | GET | `/api/lessons/` | List lessons (filterable by `?module=`, `?title=`, `?order=`) | No |
@@ -113,7 +113,7 @@ All content viewsets are read-only (`ReadOnlyModelViewSet`). Pagination is enabl
 **Frontend:** 53 tests across 8 files using Vitest + React Testing Library.
 
 | File | Coverage |
-|------|----------|
+| ------ | ---------- |
 | `AuthContext.test.jsx` | Session restore, login, logout, failed token |
 | `NavBar.test.jsx` | Logged-in/out UI, Sign Out click |
 | `LoginPage.test.jsx` | Form, success flow, errors, loading state |
@@ -128,7 +128,7 @@ API calls are mocked with `vi.mock`. `useAuth` is mocked for page-level tests. R
 ### Key dependencies
 
 | Backend | Frontend |
-|---------|----------|
+| --------- | ---------- |
 | Django 5.2, DRF 3.16 | React 19, React Router 7 |
 | djangorestframework-simplejwt | Axios |
 | django-cors-headers | react-markdown + remark-gfm |

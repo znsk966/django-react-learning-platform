@@ -56,7 +56,8 @@ apiClient.interceptors.response.use(
   }
 );
 
-export const getModules = () => apiClient.get('/modules/');
+export const getModules = (params) => apiClient.get('/modules/', { params });
+export const getTags = () => apiClient.get('/tags/');
 export const getModuleById = (id) => apiClient.get(`/modules/${id}/`);
 export const getLessons = () => apiClient.get('/lessons/');
 export const getLessonsByModule = (moduleId) =>
@@ -66,3 +67,7 @@ export const getLessonById = (id) => apiClient.get(`/lessons/${id}/`);
 export const registerUser = (data) => apiClient.post('/auth/register/', data);
 export const loginUser = (data) => apiClient.post('/auth/token/', data);
 export const getMe = () => apiClient.get('/auth/me/');
+
+export const getProgress = (params) => apiClient.get('/progress/', { params });
+export const markLessonComplete = (lessonId) => apiClient.post('/progress/', { lesson: lessonId });
+export const markLessonIncomplete = (lessonId) => apiClient.delete(`/progress/${lessonId}/`);

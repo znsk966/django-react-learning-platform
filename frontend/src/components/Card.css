@@ -96,3 +96,149 @@
   color: #0077cc;
 }
 
+/* Completed lesson card */
+.lesson-card--completed {
+  border-color: #00aa55;
+  background: #f0fdf4;
+}
+
+.lesson-card--completed:hover {
+  border-color: #007733;
+}
+
+.lesson-order--completed {
+  background: #00aa55;
+}
+
+.lesson-card--completed:hover .lesson-order {
+  background: #007733;
+}
+
+.lesson-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.read-time {
+  font-size: 0.8rem;
+  color: #999;
+  white-space: nowrap;
+}
+
+.completed-badge {
+  font-size: 0.72rem;
+  background: #00aa55;
+  color: white;
+  padding: 0.15rem 0.5rem;
+  border-radius: 99px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Module meta row */
+.module-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.progress-fraction {
+  font-size: 0.82rem;
+  color: #555;
+  font-weight: 500;
+}
+
+/* Module thumbnail */
+.module-thumbnail {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+}
+
+/* Badges */
+.module-card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+.badge--beginner {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.badge--intermediate {
+  background: #fef9c3;
+  color: #a16207;
+}
+
+.badge--advanced {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.badge--neutral {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+/* Tags */
+.module-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.5rem 0;
+}
+
+.tag {
+  font-size: 0.78rem;
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 0.15rem 0.5rem;
+  border-radius: 99px;
+  font-weight: 500;
+}
+
+/* Author */
+.module-author {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  font-size: 0.82rem;
+  color: #888;
+  font-style: italic;
+}
+
+/* Progress bar */
+.progress-bar {
+  height: 5px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  background: #00aa55;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+

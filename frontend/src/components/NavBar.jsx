@@ -1,33 +1,53 @@
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./NavBar.css";
 
 export default function NavBar() {
   const { user, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const close = () => setMenuOpen(false);
+  const initials = user ? user.username.slice(0, 2).toUpperCase() : "";
 
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <Link to="/">📚 LearnHub</Link>
+        <Link to="/" onClick={close}>📚 LearnHub</Link>
       </div>
-      <ul className="navbar-links">
+
+      <button
+        className="navbar-hamburger"
+        onClick={() => setMenuOpen(o => !o)}
+        aria-label="Toggle navigation"
+        aria-expanded={menuOpen}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      <ul className={`navbar-links${menuOpen ? " navbar-links--open" : ""}`}>
         <li>
-          <NavLink to="/dashboard" className={({ isActive }) => isActive ? "active" : ""}>
-            Dashboard
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/" end className={({ isActive }) => isActive ? "active" : ""}>
+          <NavLink to="/" end className={({ isActive }) => isActive ? "active" : ""} onClick={close}>
             Modules
           </NavLink>
         </li>
+        {user && (
+          <li>
+            <NavLink to="/dashboard" className={({ isActive }) => isActive ? "active" : ""} onClick={close}>
+              Dashboard
+            </NavLink>
+          </li>
+        )}
         {user ? (
           <>
-            <li className="navbar-username">
-              {user.username}
+            <li className="navbar-user">
+              <span className="navbar-avatar" aria-hidden="true">{initials}</span>
+              <span className="navbar-username">{user.username}</span>
             </li>
             <li>
-              <button className="navbar-logout" onClick={logout}>
+              <button className="navbar-logout" onClick={() => { logout(); close(); }}>
                 Sign Out
               </button>
             </li>
@@ -35,12 +55,16 @@ export default function NavBar() {
         ) : (
           <>
             <li>
-              <NavLink to="/login" className={({ isActive }) => isActive ? "active" : ""}>
+              <NavLink to="/login" className={({ isActive }) => isActive ? "active" : ""} onClick={close}>
                 Sign In
               </NavLink>
             </li>
             <li>
-              <NavLink to="/register" className={({ isActive }) => isActive ? "active navbar-register" : "navbar-register"}>
+              <NavLink
+                to="/register"
+                className={({ isActive }) => isActive ? "active navbar-register" : "navbar-register"}
+                onClick={close}
+              >
                 Register
               </NavLink>
             </li>

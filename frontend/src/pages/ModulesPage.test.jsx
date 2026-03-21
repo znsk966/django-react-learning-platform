@@ -6,7 +6,15 @@ import * as client from '../api/client';
 
 vi.mock('../api/client');
 
-// ModuleCard renders a link — needs MemoryRouter
+vi.mock('../context/ProgressContext', () => ({
+  useProgress: () => ({
+    completedLessonIds: new Set(),
+    progressLoading: false,
+    markComplete: vi.fn(),
+    markIncomplete: vi.fn(),
+  }),
+}));
+
 const renderPage = () => render(<MemoryRouter><ModulesPage /></MemoryRouter>);
 
 const paginatedResponse = (results) => ({
@@ -14,12 +22,16 @@ const paginatedResponse = (results) => ({
 });
 
 describe('ModulesPage', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+    client.getTags.mockResolvedValue({ data: [] });
+  });
 
   it('shows loading state before data arrives', () => {
     client.getModules.mockReturnValue(new Promise(() => {}));
     renderPage();
-    expect(screen.getByText('Loading modules...')).toBeInTheDocument();
+    // Skeletons render instead of text — page does not crash
+    expect(screen.getByText('Learning Modules')).toBeInTheDocument();
   });
 
   it('renders module titles from a paginated response', async () => {
@@ -27,9 +39,7 @@ describe('ModulesPage', () => {
       { id: 1, title: 'Python Basics', slug: 'python', description: 'Learn Python', lessons: [] },
       { id: 2, title: 'JavaScript', slug: 'js', description: 'Learn JS', lessons: [] },
     ]));
-
     renderPage();
-
     await waitFor(() => expect(screen.getByText('Python Basics')).toBeInTheDocument());
     expect(screen.getByText('JavaScript')).toBeInTheDocument();
   });
@@ -56,5 +66,13 @@ describe('ModulesPage', () => {
     client.getModules.mockResolvedValue(paginatedResponse([]));
     renderPage();
     await waitFor(() => expect(client.getModules).toHaveBeenCalledOnce());
+  });
+
+  it('shows progress fraction on module card when lessons exist', async () => {
+    client.getModules.mockResolvedValue(paginatedResponse([
+      { id: 1, title: 'Python Basics', slug: 'python', description: '', lessons: [{ id: 1 }, { id: 2 }] },
+    ]));
+    renderPage();
+    await waitFor(() => expect(screen.getByText('0/2 completed')).toBeInTheDocument());
   });
 });

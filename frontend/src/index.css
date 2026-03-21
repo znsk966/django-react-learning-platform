@@ -352,3 +352,342 @@ tr:hover {
 .markdown-content table tr:hover {
   background-color: #f0f0f0;
 }
+
+/* ============================================================
+   Filter bar (ModulesPage)
+   ============================================================ */
+.filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  min-width: 3.5rem;
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.filter-chip {
+  padding: 0.3rem 0.85rem;
+  border: 1px solid #ddd;
+  border-radius: 99px;
+  background: white;
+  font-size: 0.85rem;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  line-height: 1.4;
+}
+
+.filter-chip:hover {
+  border-color: #0077cc;
+  color: #0077cc;
+}
+
+.filter-chip--active {
+  background: #0077cc;
+  border-color: #0077cc;
+  color: white;
+  font-weight: 600;
+}
+
+.filter-chip--active:hover {
+  background: #005599;
+  border-color: #005599;
+  color: white;
+}
+
+.filter-clear {
+  align-self: flex-start;
+  padding: 0.3rem 0.85rem;
+  border: none;
+  background: none;
+  font-size: 0.82rem;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.filter-clear:hover {
+  color: #c33;
+}
+
+/* ============================================================
+   Module detail page extras
+   ============================================================ */
+.module-detail-thumbnail {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.module-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.module-detail-meta-item {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.learning-objectives {
+  margin: 1.25rem 0;
+  padding: 1rem 1.25rem;
+  background: #f0f7ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+}
+
+.learning-objectives h2 {
+  font-size: 1.1rem;
+  margin: 0 0 0.75rem;
+  color: #1e40af;
+  border: none;
+  padding: 0;
+}
+
+/* ============================================================
+   Breadcrumb
+   ============================================================ */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  font-size: 0.88rem;
+  color: #666;
+  margin-bottom: 1.25rem;
+}
+
+.breadcrumb a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-sep {
+  color: #bbb;
+  padding: 0 0.1rem;
+}
+
+.breadcrumb-current {
+  color: #444;
+  font-weight: 500;
+}
+
+/* ============================================================
+   Lesson header (title + complete button row)
+   ============================================================ */
+.lesson-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.lesson-header h1 {
+  margin: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+  flex: 1;
+}
+
+.lesson-completed-check {
+  color: #00aa55;
+}
+
+.btn-complete {
+  flex-shrink: 0;
+  padding: 0.55rem 1.1rem;
+  background: white;
+  color: #0077cc;
+  border: 2px solid #0077cc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  margin-top: 0.25rem;
+}
+
+.btn-complete:hover:not(:disabled) {
+  background: #0077cc;
+  color: white;
+}
+
+.btn-complete:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-complete--done {
+  background: #00aa55;
+  color: white;
+  border-color: #00aa55;
+}
+
+.btn-complete--done:hover:not(:disabled) {
+  background: #007733;
+  border-color: #007733;
+  color: white;
+}
+
+/* ============================================================
+   Lesson navigation (prev / center / next)
+   ============================================================ */
+.lesson-navigation {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+}
+
+.lesson-nav-side {
+  flex: 1;
+}
+
+.lesson-nav-side--right {
+  text-align: right;
+}
+
+.lesson-nav-center {
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Module progress section (ModuleDetail)
+   ============================================================ */
+.module-progress-section {
+  margin: 1rem 0 1.5rem;
+  padding: 1rem 1.25rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.module-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.module-progress-pct {
+  font-weight: 700;
+  color: #00aa55;
+}
+
+.progress-bar--large {
+  height: 10px;
+}
+
+/* ============================================================
+   Completion banner
+   ============================================================ */
+.completion-banner {
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem;
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  color: #166534;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.completion-banner__link {
+  color: #0077cc;
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.completion-banner__link:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   Toast notifications
+   ============================================================ */
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.toast {
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: toast-in 0.25s ease;
+  pointer-events: auto;
+  max-width: 320px;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.toast--success {
+  background: #166534;
+  color: white;
+}
+
+.toast--info {
+  background: #1e40af;
+  color: white;
+}
+
+.toast--error {
+  background: #991b1b;
+  color: white;
+}

@@ -3,6 +3,14 @@
   margin-bottom: 1.5rem;
 }
 
+.section-title {
+  font-size: 1.4rem;
+  margin: 2rem 0 1rem;
+  color: #333;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
 .dashboard-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -18,6 +26,10 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: transform 0.2s ease;
+}
+
+.stat-card--green {
+  background: linear-gradient(135deg, #00aa55 0%, #007733 100%);
 }
 
 .stat-card:hover {
@@ -54,4 +66,72 @@
   color: #000;
   border-bottom: 2px solid #ddd;
   padding-bottom: 0.5rem;
+}
+
+/* Continue learning */
+.continue-section h2 {
+  margin-bottom: 1rem;
+}
+
+.continue-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.continue-card {
+  display: block;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.continue-card:hover {
+  border-color: #0077cc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.continue-card__module {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #000;
+  margin-bottom: 0.3rem;
+}
+
+.continue-card__lesson {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.continue-card__bar {
+  margin-bottom: 0.4rem;
+}
+
+.continue-card__fraction {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+/* Sign-in prompt */
+.dashboard-signin-prompt {
+  background: #f0f7ff;
+  border: 1px solid #b3d4f5;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.dashboard-signin-prompt p {
+  margin: 0;
+  color: #444;
 }
