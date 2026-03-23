@@ -1,10 +1,12 @@
-from rest_framework import viewsets
-from rest_framework.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import permissions, viewsets
+from rest_framework.exceptions import PermissionDenied
 
-from .models import Module, Lesson, Tag
-from .serializers import ModuleSerializer, LessonSerializer, TagSerializer
-from .filters import ModuleFilter, LessonFilter
+from users.models import UserProfile
+
+from .filters import LessonFilter, ModuleFilter
+from .models import Lesson, Module, Tag
+from .serializers import LessonSerializer, ModuleSerializer, TagSerializer
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -30,3 +32,15 @@ class LessonViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LessonSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = LessonFilter
+
+    def retrieve(self, request, *args, **kwargs):
+        lesson = self.get_object()
+        if lesson.module.difficulty == Module.ADVANCED:
+            if not request.user.is_authenticated:
+                raise PermissionDenied('This lesson requires a Pro subscription.')
+            try:
+                if not request.user.profile.is_pro:
+                    raise PermissionDenied('This lesson requires a Pro subscription.')
+            except UserProfile.DoesNotExist:
+                raise PermissionDenied('This lesson requires a Pro subscription.')
+        return super().retrieve(request, *args, **kwargs)

@@ -41,7 +41,11 @@ export default function LessonPage() {
       })
       .catch(err => {
         document.title = "Lesson | Learning Platform";
-        setError(err.userMessage || "Failed to load lesson");
+        if (err.response?.status === 403) {
+          setError('upgrade_required');
+        } else {
+          setError(err.userMessage || "Failed to load lesson");
+        }
         setLoading(false);
       });
   }, [id]);
@@ -81,6 +85,25 @@ export default function LessonPage() {
     return (
       <div className="page">
         <div className="loading">Loading lesson...</div>
+      </div>
+    );
+  }
+
+  if (error === 'upgrade_required') {
+    return (
+      <div className="page lesson-locked-page">
+        <div className="lesson-locked-content">
+          <div className="lesson-locked-icon">🔒</div>
+          <h2>Pro Content</h2>
+          <p>This lesson is part of an Advanced module and requires a Pro subscription.</p>
+          <div className="lesson-locked-actions">
+            <Link to="/profile" className="btn-primary">Upgrade to Pro</Link>
+            {moduleId && (
+              <Link to={`/modules/${moduleId}`} className="back-link">← Back to Module</Link>
+            )}
+            <Link to="/" className="back-link">← Browse All Modules</Link>
+          </div>
+        </div>
       </div>
     );
   }

@@ -4,6 +4,9 @@ import { getModules } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import { useProgress } from "../context/ProgressContext";
 import {
+  BookOpen, Layers, TrendingUp, CheckCircle2, Award, LayoutGrid
+} from "lucide-react";
+import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend,
 } from "recharts";
@@ -101,17 +104,43 @@ export default function Dashboard() {
     <div className="page dashboard">
       <h1>Learning Dashboard</h1>
 
+      {/* Quick actions */}
+      {user && (
+        <div className="quick-actions">
+          <Link to="/" className="quick-action-card">
+            <LayoutGrid size={20} />
+            <span>Browse Modules</span>
+          </Link>
+          {resumable.length > 0 && (
+            <Link
+              to={`/lesson/${resumable[0].nextLesson.id}?module=${resumable[0].module.id}`}
+              className="quick-action-card quick-action-card--primary"
+            >
+              <BookOpen size={20} />
+              <span>Continue Learning</span>
+            </Link>
+          )}
+          <Link to="/profile" className="quick-action-card">
+            <Award size={20} />
+            <span>Manage Subscription</span>
+          </Link>
+        </div>
+      )}
+
       {/* Content stats */}
       <div className="dashboard-stats">
         <div className="stat-card">
+          <div className="stat-icon"><Layers size={24} /></div>
           <h3>Total Modules</h3>
           <p className="stat-value">{modules.length}</p>
         </div>
         <div className="stat-card">
+          <div className="stat-icon"><BookOpen size={24} /></div>
           <h3>Total Lessons</h3>
           <p className="stat-value">{totalLessons}</p>
         </div>
         <div className="stat-card">
+          <div className="stat-icon"><TrendingUp size={24} /></div>
           <h3>Average Lessons per Module</h3>
           <p className="stat-value">
             {modules.length > 0 ? (totalLessons / modules.length).toFixed(1) : 0}
@@ -122,17 +151,25 @@ export default function Dashboard() {
       {/* Progress stats — logged-in users only */}
       {user ? (
         <>
-          <h2 className="section-title">Your Progress</h2>
+          <h2 className="section-title">
+            Your Progress
+            {user.profile?.is_pro && (
+              <span className="badge badge--pro section-pro-badge">Pro</span>
+            )}
+          </h2>
           <div className="dashboard-stats">
             <div className="stat-card stat-card--green">
+              <div className="stat-icon"><CheckCircle2 size={24} /></div>
               <h3>Lessons Completed</h3>
               <p className="stat-value">{completedCount}</p>
             </div>
             <div className="stat-card stat-card--green">
+              <div className="stat-icon"><TrendingUp size={24} /></div>
               <h3>Overall Completion</h3>
               <p className="stat-value">{completionPct}%</p>
             </div>
             <div className="stat-card stat-card--green">
+              <div className="stat-icon"><Award size={24} /></div>
               <h3>Modules Finished</h3>
               <p className="stat-value">{completedModules}</p>
             </div>

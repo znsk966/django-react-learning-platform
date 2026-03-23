@@ -141,6 +141,20 @@ describe('LessonPage', () => {
     await waitFor(() => expect(screen.getByText('Mark as complete')).toBeInTheDocument());
   });
 
+  it('shows upgrade prompt when lesson returns 403', async () => {
+    client.getLessonById.mockRejectedValue({ response: { status: 403 } });
+    renderWithRoute();
+    await waitFor(() => expect(screen.getByText('Pro Content')).toBeInTheDocument());
+    expect(screen.getByText(/requires a Pro subscription/)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Upgrade to Pro' })).toBeInTheDocument();
+  });
+
+  it('shows browse all modules link on upgrade prompt', async () => {
+    client.getLessonById.mockRejectedValue({ response: { status: 403 } });
+    renderWithRoute();
+    await waitFor(() => expect(screen.getByText('← Browse All Modules')).toBeInTheDocument());
+  });
+
   it('shows prev/next navigation when module has multiple lessons', async () => {
     client.getLessonById.mockResolvedValue({
       data: { id: 2, title: 'Functions', content_md: '', module: 1 },

@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from .models import Lesson, Module, Tag
+from users.models import UserProfile
 
 User = get_user_model()
 
@@ -35,6 +36,7 @@ class ModuleSerializer(serializers.ModelSerializer):
     author        = AuthorSerializer(read_only=True)
     lesson_count  = serializers.IntegerField(source='lessons.count', read_only=True)
     thumbnail_url = serializers.SerializerMethodField()
+    is_locked     = serializers.SerializerMethodField()
 
     class Meta:
         model = Module
@@ -42,7 +44,7 @@ class ModuleSerializer(serializers.ModelSerializer):
             'id', 'title', 'slug', 'description',
             'difficulty', 'estimated_duration', 'learning_objectives',
             'thumbnail_url', 'tags', 'author', 'lesson_count',
-            'is_published', 'lessons',
+            'is_published', 'is_locked', 'lessons',
         ]
 
     def get_thumbnail_url(self, obj):
@@ -52,3 +54,14 @@ class ModuleSerializer(serializers.ModelSerializer):
         if request:
             return request.build_absolute_uri(obj.thumbnail.url)
         return obj.thumbnail.url
+
+    def get_is_locked(self, obj):
+        if obj.difficulty != Module.ADVANCED:
+            return False
+        request = self.context.get('request')
+        if not request or not request.user.is_authenticated:
+            return True
+        try:
+            return not request.user.profile.is_pro
+        except UserProfile.DoesNotExist:
+            return True

@@ -5,6 +5,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+from users.models import UserProfile
+
 from .models import Lesson, Module, Tag
 
 
@@ -383,3 +385,114 @@ class LessonAPITest(APITestCase):
         response = self.client.get(url, {'module': self.module1.id})
         orders = [l['order'] for l in response.data['results']]
         self.assertEqual(orders, sorted(orders))
+
+
+class ContentGatingTest(APITestCase):
+    def setUp(self):
+        # Advanced module + lesson (gated)
+        self.adv_module = Module.objects.create(
+            title='Advanced Module', slug='advanced-module', difficulty=Module.ADVANCED
+        )
+        self.adv_lesson = Lesson.objects.create(
+            module=self.adv_module,
+            title='Advanced Lesson',
+            slug='advanced-lesson',
+            content_md='# Advanced Content',
+            order=1,
+        )
+
+        # Beginner module + lesson (free)
+        self.beg_module = Module.objects.create(
+            title='Beginner Module', slug='beginner-module', difficulty=Module.BEGINNER
+        )
+        self.beg_lesson = Lesson.objects.create(
+            module=self.beg_module,
+            title='Beginner Lesson',
+            slug='beginner-lesson',
+            content_md='# Beginner Content',
+            order=1,
+        )
+
+        # Users
+        self.free_user = User.objects.create_user(
+            username='free_user', email='free@example.com', password='StrongPass123!'
+        )
+        UserProfile.objects.filter(user=self.free_user).update(
+            subscription_tier=UserProfile.TIER_FREE,
+            subscription_status=UserProfile.STATUS_INACTIVE,
+        )
+
+        self.pro_user = User.objects.create_user(
+            username='pro_user', email='pro@example.com', password='StrongPass123!'
+        )
+        UserProfile.objects.filter(user=self.pro_user).update(
+            subscription_tier=UserProfile.TIER_PRO,
+            subscription_status=UserProfile.STATUS_ACTIVE,
+        )
+
+    def _get_token(self, username, password='StrongPass123!'):
+        res = self.client.post(reverse('token_obtain_pair'), {'username': username, 'password': password})
+        return res.data['access']
+
+    # ── Module is_locked field ─────────────────────────────────────────────
+
+    def test_advanced_module_is_locked_for_anonymous(self):
+        response = self.client.get(reverse('module-detail', args=[self.adv_module.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data['is_locked'])
+
+    def test_advanced_module_is_locked_for_free_user(self):
+        token = self._get_token('free_user')
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+        response = self.client.get(reverse('module-detail', args=[self.adv_module.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data['is_locked'])
+
+    def test_advanced_module_is_not_locked_for_pro_user(self):
+        token = self._get_token('pro_user')
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+        response = self.client.get(reverse('module-detail', args=[self.adv_module.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertFalse(response.data['is_locked'])
+
+    def test_beginner_module_is_not_locked_for_anyone(self):
+        response = self.client.get(reverse('module-detail', args=[self.beg_module.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertFalse(response.data['is_locked'])
+
+    # ── Lesson detail gating ───────────────────────────────────────────────
+
+    def test_advanced_lesson_detail_returns_403_for_anonymous(self):
+        response = self.client.get(reverse('lesson-detail', args=[self.adv_lesson.id]))
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_advanced_lesson_detail_returns_403_for_free_user(self):
+        token = self._get_token('free_user')
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+        response = self.client.get(reverse('lesson-detail', args=[self.adv_lesson.id]))
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_advanced_lesson_detail_returns_200_for_pro_user(self):
+        token = self._get_token('pro_user')
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+        response = self.client.get(reverse('lesson-detail', args=[self.adv_lesson.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['title'], 'Advanced Lesson')
+
+    def test_beginner_lesson_detail_returns_200_for_anonymous(self):
+        response = self.client.get(reverse('lesson-detail', args=[self.beg_lesson.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_beginner_lesson_detail_returns_200_for_free_user(self):
+        token = self._get_token('free_user')
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+        response = self.client.get(reverse('lesson-detail', args=[self.beg_lesson.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_advanced_lesson_list_still_accessible_for_free_user(self):
+        # List endpoint should NOT be gated — only detail
+        token = self._get_token('free_user')
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+        response = self.client.get(reverse('lesson-list'), {'module': self.adv_module.id})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 1)

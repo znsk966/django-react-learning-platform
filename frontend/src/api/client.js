@@ -71,3 +71,9 @@ export const getMe = () => apiClient.get('/auth/me/');
 export const getProgress = (params) => apiClient.get('/progress/', { params });
 export const markLessonComplete = (lessonId) => apiClient.post('/progress/', { lesson: lessonId });
 export const markLessonIncomplete = (lessonId) => apiClient.delete(`/progress/${lessonId}/`);
+
+export const updateProfile = (data) => apiClient.patch('/auth/profile/', data);
+
+export const createCheckoutSession = () => apiClient.post('/subscriptions/create-checkout-session/');
+export const getSubscriptionStatus = () => apiClient.get('/subscriptions/status/');
+export const getCustomerPortal = () => apiClient.get('/subscriptions/portal/');

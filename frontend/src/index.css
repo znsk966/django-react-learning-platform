@@ -691,3 +691,67 @@ tr:hover {
   background: #991b1b;
   color: white;
 }
+
+/* ============================================================
+   Locked lesson page
+   ============================================================ */
+
+.lesson-locked-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lesson-locked-content {
+  text-align: center;
+  max-width: 480px;
+  padding: 3rem 2rem;
+}
+
+.lesson-locked-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.lesson-locked-content h2 {
+  font-size: 1.75rem;
+  margin-bottom: 0.75rem;
+  color: #111;
+  border: none;
+}
+
+.lesson-locked-content p {
+  color: #555;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.lesson-locked-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ============================================================
+   Primary button (shared)
+   ============================================================ */
+
+.btn-primary {
+  display: inline-block;
+  padding: 0.65rem 1.5rem;
+  background: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #005599;
+  color: white;
+}

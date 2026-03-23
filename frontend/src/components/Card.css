@@ -227,6 +227,51 @@
   font-style: italic;
 }
 
+/* Pro badge */
+.badge--pro {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge--xs {
+  font-size: 0.62rem;
+  padding: 0.12rem 0.4rem;
+}
+
+/* Locked module card */
+.module-card--locked {
+  cursor: default;
+  position: relative;
+  opacity: 0.85;
+}
+
+.module-card--locked:hover {
+  transform: none;
+  border-color: #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.module-lock-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+  backdrop-filter: blur(2px);
+}
+
+.upgrade-link {
+  color: #d97706;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 /* Progress bar */
 .progress-bar {
   height: 5px;

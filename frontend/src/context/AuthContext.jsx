@@ -38,8 +38,12 @@ export function AuthProvider({ children }) {
     navigate('/login');
   }, [navigate]);
 
+  const refreshUser = useCallback(() => {
+    return getMe().then(res => setUser(res.data)).catch(() => {});
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, authLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, authLoading, login, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

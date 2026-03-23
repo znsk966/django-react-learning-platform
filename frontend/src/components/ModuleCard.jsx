@@ -1,3 +1,4 @@
+import { Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./Card.css";
 
@@ -9,7 +10,7 @@ function formatDuration(mins) {
   return m > 0 ? `${h}h ${m}m` : `${h}h`;
 }
 
-export default function ModuleCard({ module, completedLessonIds }) {
+function ModuleCardContent({ module, completedLessonIds }) {
   const lessons   = module.lessons ?? [];
   const total     = lessons.length;
   const completed = completedLessonIds
@@ -22,7 +23,7 @@ export default function ModuleCard({ module, completedLessonIds }) {
     : null;
 
   return (
-    <Link to={`/modules/${module.id}`} className="card module-card">
+    <>
       {module.thumbnail_url && (
         <img src={module.thumbnail_url} alt={module.title} className="module-thumbnail" />
       )}
@@ -30,6 +31,12 @@ export default function ModuleCard({ module, completedLessonIds }) {
       <div className="module-card-badges">
         {module.difficulty && (
           <span className={`badge badge--${module.difficulty}`}>{module.difficulty}</span>
+        )}
+        {module.is_locked && (
+          <span className="badge badge--pro">
+            <Lock size={11} style={{ verticalAlign: 'middle', marginRight: 3 }} />
+            Pro
+          </span>
         )}
         {duration && <span className="badge badge--neutral">⏱ {duration}</span>}
       </div>
@@ -50,11 +57,11 @@ export default function ModuleCard({ module, completedLessonIds }) {
         <div className="module-meta">
           <div className="module-meta-row">
             <span className="lesson-count">{total} {total === 1 ? "lesson" : "lessons"}</span>
-            {completedLessonIds && (
+            {completedLessonIds && !module.is_locked && (
               <span className="progress-fraction">{completed}/{total} completed</span>
             )}
           </div>
-          {completedLessonIds && (
+          {completedLessonIds && !module.is_locked && (
             <div className="progress-bar">
               <div className="progress-bar__fill" style={{ width: `${pct}%` }} />
             </div>
@@ -65,6 +72,26 @@ export default function ModuleCard({ module, completedLessonIds }) {
       {authorName && (
         <div className="module-author">By {authorName}</div>
       )}
+    </>
+  );
+}
+
+export default function ModuleCard({ module, completedLessonIds }) {
+  if (module.is_locked) {
+    return (
+      <div className="card module-card module-card--locked" title="Upgrade to Pro to access this module">
+        <ModuleCardContent module={module} completedLessonIds={completedLessonIds} />
+        <div className="module-lock-overlay">
+          <Lock size={28} />
+          <span>Pro content — <Link to="/profile" className="upgrade-link" onClick={e => e.stopPropagation()}>Upgrade to Pro</Link></span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <Link to={`/modules/${module.id}`} className="card module-card">
+      <ModuleCardContent module={module} completedLessonIds={completedLessonIds} />
     </Link>
   );
 }

@@ -42,9 +42,18 @@ export default function NavBar() {
         )}
         {user ? (
           <>
-            <li className="navbar-user">
-              <span className="navbar-avatar" aria-hidden="true">{initials}</span>
-              <span className="navbar-username">{user.username}</span>
+            <li>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) => `navbar-user${isActive ? ' active' : ''}`}
+                onClick={close}
+              >
+                <span className="navbar-avatar" aria-hidden="true">{initials}</span>
+                <span className="navbar-username">{user.username}</span>
+                {user.profile?.is_pro && (
+                  <span className="badge badge--pro badge--xs">Pro</span>
+                )}
+              </NavLink>
             </li>
             <li>
               <button className="navbar-logout" onClick={() => { logout(); close(); }}>

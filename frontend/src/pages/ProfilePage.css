@@ -1,0 +1,244 @@
+/* ============================================================
+   Profile Page
+   ============================================================ */
+
+.profile-page h1 {
+  margin-bottom: 1.5rem;
+}
+
+/* Hero section */
+.profile-hero {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0077cc, #005599);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 1px;
+}
+
+.profile-username {
+  margin: 0 0 0.25rem;
+  font-size: 1.4rem;
+  color: #111;
+}
+
+.profile-display-name {
+  margin: 0 0 0.2rem;
+  color: #444;
+  font-size: 1rem;
+}
+
+.profile-email {
+  margin: 0;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Layout grid */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.profile-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Section wrapper */
+.profile-section {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.profile-section h3 {
+  margin: 0 0 1.25rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #222;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+/* Edit form */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 500px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #333;
+  background: white;
+  transition: border-color 0.2s ease;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #0077cc;
+  box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.12);
+}
+
+.form-error {
+  background: #fff0f0;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: 0.6rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+}
+
+/* Subscription card */
+.subscription-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.badge--lg {
+  font-size: 0.82rem;
+  padding: 0.3rem 0.85rem;
+}
+
+.subscription-period {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 0.6rem 1.25rem;
+  background: white;
+  color: #0077cc;
+  border: 1.5px solid #0077cc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-secondary:hover {
+  background: #0077cc;
+  color: white;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.upgrade-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.upgrade-desc {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.upgrade-section .btn-primary {
+  width: 100%;
+  text-align: center;
+}
+
+/* Learning stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.stats-item {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1rem 0.75rem;
+  text-align: center;
+}
+
+.stats-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0077cc;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.stats-label {
+  display: block;
+  font-size: 0.78rem;
+  color: #888;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

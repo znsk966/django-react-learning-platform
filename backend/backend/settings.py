@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'users',
     'content',
     'progress',
+    'subscriptions',
 ]
 
 MIDDLEWARE = [
@@ -175,6 +176,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Stripe
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+STRIPE_PRO_PRICE_ID = config('STRIPE_PRO_PRICE_ID', default='')
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:5173')
 
 # Logging
 LOGS_DIR = BASE_DIR / 'logs'

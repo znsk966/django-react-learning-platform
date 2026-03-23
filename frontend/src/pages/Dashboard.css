@@ -119,6 +119,66 @@
   color: #888;
 }
 
+/* Quick actions */
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.quick-action-card {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  background: white;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #444;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.quick-action-card:hover {
+  border-color: #0077cc;
+  color: #0077cc;
+  box-shadow: 0 2px 8px rgba(0, 119, 204, 0.12);
+}
+
+.quick-action-card--primary {
+  background: #0077cc;
+  border-color: #0077cc;
+  color: white;
+}
+
+.quick-action-card--primary:hover {
+  background: #005599;
+  border-color: #005599;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 85, 153, 0.3);
+}
+
+/* Stat icon */
+.stat-icon {
+  margin-bottom: 0.6rem;
+  opacity: 0.7;
+}
+
+/* Pro badge next to section title */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-pro-badge {
+  font-size: 0.7rem;
+  vertical-align: middle;
+}
+
 /* Sign-in prompt */
 .dashboard-signin-prompt {
   background: #f0f7ff;

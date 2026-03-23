@@ -11,6 +11,15 @@ vi.mock('../context/AuthContext', () => ({
   useAuth: vi.fn(() => ({ user: null, authLoading: false })),
 }));
 
+vi.mock('lucide-react', () => ({
+  BookOpen: () => <span data-testid="icon-book-open" />,
+  Layers: () => <span data-testid="icon-layers" />,
+  TrendingUp: () => <span data-testid="icon-trending-up" />,
+  CheckCircle2: () => <span data-testid="icon-check-circle" />,
+  Award: () => <span data-testid="icon-award" />,
+  LayoutGrid: () => <span data-testid="icon-layout-grid" />,
+}));
+
 vi.mock('../context/ProgressContext', () => ({
   useProgress: () => ({
     completedLessonIds: new Set(),
@@ -119,5 +128,27 @@ describe('Dashboard', () => {
     await waitFor(() => expect(screen.getByText('Lessons Completed')).toBeInTheDocument());
     expect(screen.getByText('Overall Completion')).toBeInTheDocument();
     expect(screen.getByText('Modules Finished')).toBeInTheDocument();
+  });
+
+  it('shows Pro badge next to Your Progress when user is pro', async () => {
+    vi.mocked(useAuth).mockReturnValue({
+      user: { username: 'prouser', profile: { is_pro: true } },
+      authLoading: false,
+    });
+    client.getModules.mockResolvedValue(paginatedResponse([
+      { id: 1, title: 'Module A', lessons: [{ id: 1 }] },
+    ]));
+    renderPage();
+    await waitFor(() => expect(screen.getByText('Pro')).toBeInTheDocument());
+  });
+
+  it('shows quick-action links for logged-in users', async () => {
+    vi.mocked(useAuth).mockReturnValue({ user: { username: 'testuser' }, authLoading: false });
+    client.getModules.mockResolvedValue(paginatedResponse([
+      { id: 1, title: 'Module A', lessons: [{ id: 1 }] },
+    ]));
+    renderPage();
+    await waitFor(() => expect(screen.getByText('Browse Modules')).toBeInTheDocument());
+    expect(screen.getByText('Manage Subscription')).toBeInTheDocument();
   });
 });
